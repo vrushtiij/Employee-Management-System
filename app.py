@@ -1,8 +1,11 @@
 from flask import Flask, request, jsonify,make_response
 from flask_cors import CORS
-import pyodbc
+import mysql.connector
+import os
+from dotenv import load_dotenv
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, set_access_cookies, verify_jwt_in_request
 
+load_dotenv()
 app = Flask(__name__)
 app.config["JWT_SECRET_KEY"] = "secret_key"
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
@@ -13,13 +16,15 @@ CORS(app,
     supports_credentials=True,
     origins=["http://localhost:5173"])
 
-conn = pyodbc.connect(
-    "Driver={ODBC Driver 17 for SQL Server};"
-    "Server=localhost;"
-    "Database=EMS;"
-    "Trusted_Connection=yes;"
+conn = mysql.connector.connect(
+    host=os.getenv("DB_HOST"),
+    user=os.getenv("DB_USER"),
+    password=os.getenv("DB_PASSWORD"),
+    database=os.getenv("DB_NAME"),
+    port=53969
 )
-cursor = conn.cursor()
+
+cursor = conn.cursor(dictionary=True)
 
 EXEMPT_ROUTES = {
     "login",
@@ -52,10 +57,10 @@ def check_auth():
 
 @app.route("/get_image", methods=["GET"])
 def retrieve_image():
-    sql = "Select image_url from employee where e_name=?"
+    sql = "Select image_url from employee where e_name=%s"
     cursor.execute(sql,("ABC",))
     res = cursor.fetchone()
-    image_url = res[0] 
+    image_url = res["image_url"] 
     print(f"[{image_url}]")  
     return jsonify({"image_url": image_url})
 
@@ -63,11 +68,11 @@ def retrieve_image():
 def register():
     data = request.json
     uname = data["username"]
-    sql = "Select * from users where username = ?"
+    sql = "Select * from users where username = %s"
     cursor.execute(sql,(uname,))
     res = cursor.fetchall()
     if not res:
-        sql = "Insert into users(username,passw) values(?,?)"
+        sql = "Insert into users(username,passw) values(%s,%s)"
         values = (data["username"], data["password"])
         cursor.execute(sql,values)
 
@@ -84,7 +89,7 @@ def register():
 def login():
     data = request.json
     uname = data["username"]
-    sql = "Select * from users where username = ?"
+    sql = "Select * from users where username = %s"
     cursor.execute(sql,(uname,))
     res = cursor.fetchone()
     if not res :
@@ -93,7 +98,7 @@ def login():
             "message": "username invalid"})
     else:
         passw = data["password"]
-        if res[2] == passw:
+        if res["passw"] == passw:
             access_token = create_access_token(identity=uname)
             response = jsonify({
                 "success": True,
@@ -109,11 +114,11 @@ def login():
 def add_employee(): 
     data = request.json
     email = data["email"]
-    sql = "Select * from employee where email=?"
+    sql = "Select * from employee where email=%s"
     cursor.execute(sql,(email,))
     res = cursor.fetchall()
     if not res:
-        sql = "Insert into employee (e_name,email,phone,job_title,address,image_url) values(?, ?, ?, ?, ?,?)"
+        sql = "Insert into employee (e_name,email,phone,job_title,address,image_url) values(%s, %s, %s, %s, %s,%s)"
         values = (data["e_name"], data["email"], data["phone"], data["job_title"], data["address"], data["image_url"])
         cursor.execute(sql, values)
         print("employee added")
@@ -127,11 +132,11 @@ def add_employee():
 def addWork():
     data = request.json
     emp_id = data["emp_id"]
-    sql = "Select * from employee where employee_id=?"
+    sql = "Select * from employee where employee_id=%s"
     cursor.execute(sql,(emp_id,))
     res = cursor.fetchall()
     if res:
-        sql = "Insert into emp_details (emp_id,dept,designation,salary,experience,education) values(?,?, ?, ?, ?, ?)"
+        sql = "Insert into emp_details (emp_id,dept,designation,salary,experience,education) values(%s,%s, %s, %s, %s, %s)"
         values = (data["emp_id"], data["dept"], data["desg"], data["salary"], data["experience"], data["education"])
         cursor.execute(sql, values)
         print("employee added")
@@ -143,7 +148,7 @@ def addWork():
 
 @app.route("/viewWork/<int:employee_id>", methods=["GET"])
 def viewWork(employee_id):
-    sql = "Select * from emp_details where emp_id=?"
+    sql = "Select * from emp_details where emp_id=%s"
     cursor.execute(sql,(employee_id,))
     columns = [column[0] for column in cursor.description]
     rows = cursor.fetchall()
@@ -164,7 +169,7 @@ def retrieve_id():
 @app.route("/update/<int:employee_id>", methods=["PUT"])
 def update_employee(employee_id):
     data = request.json
-    sql = "Update employee set e_name=?, email=?, phone=?, job_title=?, address=?, image_url=? where employee_id=?"
+    sql = "Update employee set e_name=%s, email=%s, phone=%s, job_title=%s, address=%s, image_url=%s where employee_id=%s"
     values = (
         data["e_name"],
         data["email"],
@@ -181,7 +186,7 @@ def update_employee(employee_id):
 
 @app.route("/view/<int:employee_id>", methods=["GET"])
 def view_employee(employee_id):
-    sql = "Select * from employee where employee_id=?"
+    sql = "Select * from employee where employee_id=%s"
     values = (employee_id,)
     cursor.execute(sql,values)
     columns = [column[0] for column in cursor.description]
@@ -201,7 +206,8 @@ def view_all_employee():
 
 @app.route("/delete/<int:employee_id>", methods=["DELETE"])
 def delete_employee(employee_id):
-    sql = "Delete from employee where employee_id=?"
+    cursor.execute("DELETE FROM emp_details WHERE emp_id=%s", (employee_id,))
+    sql = "Delete from employee where employee_id=%s"
     cursor.execute(sql, (employee_id,))
     conn.commit()
 
