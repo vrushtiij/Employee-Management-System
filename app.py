@@ -17,7 +17,7 @@ app.config["JWT_COOKIE_SAMESITE"] = "None"
 jwt = JWTManager(app)
 CORS(app,
     supports_credentials=True,
-    origins=["http://localhost:5173"])
+    origins=["http://localhost:5173", "https://employee-management-system-eight-gray.vercel.app"])
 
 conn = mysql.connector.connect(
     host=os.getenv("DB_HOST"),
