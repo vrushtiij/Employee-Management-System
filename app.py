@@ -17,7 +17,7 @@ app.config["JWT_COOKIE_SAMESITE"] = "None"
 jwt = JWTManager(app)
 CORS(app,
     supports_credentials=True,
-    origins=["http://localhost:5173", "https://employee-management-system-eight-gray.vercel.app"])
+    r"/*": {origins=["http://localhost:5173", "https://employee-management-system-eight-gray.vercel.app"]})
 
 conn = mysql.connector.connect(
     host=os.getenv("DB_HOST"),
@@ -44,7 +44,7 @@ EXEMPT_ROUTES = {
 @app.before_request
 def check_authentication():
     if request.method == "OPTIONS":
-        return make_response("", 200)
+        return 
     if request.endpoint in EXEMPT_ROUTES:
         return
     else:
@@ -68,7 +68,7 @@ def retrieve_image():
     print(f"[{image_url}]")  
     return jsonify({"image_url": image_url})
 
-@app.route("/register", methods=["POST", "OPTIONS"])
+@app.route("/register", methods=["POST"])
 def register():
     data = request.json
     uname = data["username"]
@@ -89,7 +89,7 @@ def register():
     else:
         return jsonify({"message": "Username already exists"})
 
-@app.route("/login", methods=["POST",  "OPTIONS"])
+@app.route("/login", methods=["POST"])
 def login():
     data = request.json
     uname = data["username"]
@@ -114,7 +114,7 @@ def login():
         else:
             return jsonify({"messsage": "password invalid"})    
 
-@app.route("/add", methods=["POST", "OPTIONS"])
+@app.route("/add", methods=["POST"])
 def add_employee(): 
     data = request.json
     email = data["email"]
@@ -132,7 +132,7 @@ def add_employee():
     else:
         return jsonify({"message": "Employee already exists"})
 
-@app.route("/addWork", methods=["POST", "OPTIONS"])
+@app.route("/addWork", methods=["POST"])
 def addWork():
     data = request.json
     emp_id = data["emp_id"]
@@ -170,7 +170,7 @@ def retrieve_id():
     print(rows)
     return jsonify(rows)
 
-@app.route("/update/<int:employee_id>", methods=["PUT", "OPTIONS"])
+@app.route("/update/<int:employee_id>", methods=["PUT"])
 def update_employee(employee_id):
     data = request.json
     sql = "Update employee set e_name=%s, email=%s, phone=%s, job_title=%s, address=%s, image_url=%s where employee_id=%s"
@@ -208,7 +208,7 @@ def view_all_employee():
         res = [dict(zip(columns, row)) for row in rows]
         return jsonify(res)
 
-@app.route("/delete/<int:employee_id>", methods=["DELETE", "OPTIONS"])
+@app.route("/delete/<int:employee_id>", methods=["DELETE"])
 def delete_employee(employee_id):
     cursor.execute("DELETE FROM emp_details WHERE emp_id=%s", (employee_id,))
     sql = "Delete from employee where employee_id=%s"
