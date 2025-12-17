@@ -1,0 +1,63 @@
+.view-all-page {
+  padding: 50px;
+}
+
+.view-all-page h2 {
+  margin-bottom: 25px;
+  color: #0f172a;
+}
+.button-row{
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.add_emp{
+  border: solid;
+  border-radius: 20px;
+  background-color: white;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: large;
+  padding: 5px;
+}
+
+.add_emp:hover{
+  background-color: black;
+  color:white;
+  cursor: pointer;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+}
+
+.employee-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+}
+
+.employee-table th,
+.employee-table td {
+  padding: 16px;
+  text-align: left;
+}
+
+.avatar {
+  height:20px;
+  width:50px;
+  border-radius: 5px;
+}
+
+.employee-table thead {
+  background: #f1f5f9;
+}
+
+.employee-table tr {
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.employee-table tbody tr:hover {
+  background: #e0f2fe;
+}

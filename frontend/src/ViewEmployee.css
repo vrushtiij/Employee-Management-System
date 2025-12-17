@@ -1,0 +1,68 @@
+.view-employee-page {
+  padding: 0px;
+}
+
+.employee-card {
+  max-width: 500px;
+  margin: auto;
+  background: rgb(238, 241, 241);
+  padding: 35px;
+  border-radius: 18px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+}
+
+.employee-card h2 {
+  margin-bottom: 25px;
+}
+
+.emp_img {
+  height:100px;
+  width:150px;
+}
+
+.detail {
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+}
+
+.detail span {
+  font-weight: 600;
+  color: #334155;
+}
+
+.actions {
+  margin-top: -50px;
+  display: flex;
+  gap: 15px;
+  justify-content: end;
+  margin-right: 250px;
+  margin-bottom: 20px;
+}
+
+.update-btn {
+  background: #1e4bac;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background: #ae2222;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.vback-btn {
+  margin-bottom: 20px;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #2563eb;
+  margin-right: 500px;
+}
