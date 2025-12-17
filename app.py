@@ -32,7 +32,6 @@ cursor = conn.cursor(dictionary=True)
 EXEMPT_ROUTES = {
     "login",
     "register",
-    "OPTIONS",
     "check_auth",
     "add_employee",
     "update_employee",
@@ -44,6 +43,8 @@ EXEMPT_ROUTES = {
 
 @app.before_request
 def check_authentication():
+    if request.method == "OPTIONS":
+        return
     if request.endpoint in EXEMPT_ROUTES:
         return
     else:
