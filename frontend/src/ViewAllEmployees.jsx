@@ -13,7 +13,7 @@ const ViewAllEmployees = () => {
 
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/view", {withCredentials: true});
+      const res = await axios.get("https://your-backend.up.railway.app/view", {withCredentials: true});
       setEmployees(res.data);
     } catch (err) {
       console.error("Error fetching employees", err);

@@ -11,7 +11,7 @@ const ProtectedRoute = ({children}) => {
     {
         const checkAuth = async () => {
             try {
-                await axios.get("http://localhost:5000/check-auth", {
+                await axios.get("https://your-backend.up.railway.app/check-auth", {
                     withCredentials: true,
                 });
                 setisAuth(true);

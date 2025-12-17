@@ -47,7 +47,7 @@ const EmpDetails = () => {
 
     const getEmpIds = async () => {
         try{
-            const res = await axios.get("http://localhost:5000/retrieve_id", {withCredentials: true});
+            const res = await axios.get("https://your-backend.up.railway.app/retrieve_id", {withCredentials: true});
             if (Array.isArray(res.data)) {
                 setEmpIds(res.data);
             } else {
@@ -68,7 +68,7 @@ const EmpDetails = () => {
     if (!validate()) return;
 
     try {
-      const res = await axios.post("http://localhost:5000/addWork", formData,
+      const res = await axios.post("https://your-backend.up.railway.app/addWork", formData,
         { withCredentials: true }
       );
       if (res.data.success) {

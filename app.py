@@ -11,6 +11,9 @@ app.config["JWT_SECRET_KEY"] = "secret_key"
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
 app.config["JWT_ACCESS_COOKIE_NAME"] = "token"
 app.config["JWT_COOKIE_CSRF_PROTECT"] = False
+app.config["JWT_COOKIE_SECURE"] = True
+app.config["JWT_COOKIE_SAMESITE"] = "None"
+
 jwt = JWTManager(app)
 CORS(app,
     supports_credentials=True,

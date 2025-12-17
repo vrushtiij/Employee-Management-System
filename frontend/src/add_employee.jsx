@@ -67,7 +67,7 @@ const AddEmployee = () => {
     if (!validate()) return;
 
     try {
-      const res = await axios.post("http://localhost:5000/add", formData,
+      const res = await axios.post("https://your-backend.up.railway.app/add", formData,
         { withCredentials: true }
       );
       if (res.data.success) {
