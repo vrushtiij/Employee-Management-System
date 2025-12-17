@@ -213,6 +213,3 @@ def delete_employee(employee_id):
 
     return jsonify({"message": "employee deleted"}), 200
 
-
-if __name__ == "__main__":
-    app.run(debug=True)
