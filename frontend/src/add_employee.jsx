@@ -19,37 +19,40 @@ const AddEmployee = () => {
   const [errors, setErrors] = useState({});
 
   const validate = () => {
-    let newErrors = {};
+  let newErrors = {};
 
-    if (!formData.e_name.trim()) {
-      newErrors.e_name = "Name is required";
-    }
+  if (!formData.e_name.trim()) {
+    newErrors.e_name = "Name is required";
+  }
 
-    if (!formData.email) {
-      newErrors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Invalid email format";
-    }
+  if (!formData.email) {
+    newErrors.email = "Email is required";
+  } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    newErrors.email = "Invalid email format";
+  }
 
-    if (!formData.phone) {
-      newErrors.phone = "Phone number is required";
-    } else if (!/^\d{10}$/.test(formData.phone)) {
-      newErrors.phone = "Phone must be 10 digits";
-    }
+  if (!formData.phone) {
+    newErrors.phone = "Phone number is required";
+  } else if (!/^\d{10}$/.test(formData.phone)) {
+    newErrors.phone = "Phone must be 10 digits";
+  }
 
-    if (!formData.job_title.trim()) {
-      newErrors.job_title = "Job title is required";
-    }
+  if (!formData.job_title.trim()) {
+    newErrors.job_title = "Job title is required";
+  }
 
-    if (!formData.address.trim()) {
-      newErrors.address = "Address is required";
-    }
+  if (!formData.address.trim()) {
+    newErrors.address = "Address is required";
+  }
 
-    if (!formData.image_url.trim()) {
-      newErrors.image_url = "Employee Image is required";
-    }
+  if (!formData.image_url.trim()) {
+    newErrors.image_url = "Employee Image is required";
+  }
 
-  };
+  setErrors(newErrors);
+
+  return Object.keys(newErrors).length === 0;
+};
   const handleChange = (e) => {
     setFormData({
       ...formData,
