@@ -41,7 +41,6 @@ cursor = conn.cursor(dictionary=True)
 EXEMPT_ROUTES = {
     "login",
     "register",
-    "check_auth",
     "add_employee",
     "update_employee",
     "view_all_employee",
@@ -60,7 +59,6 @@ def check_authentication():
         verify_jwt_in_request()
 
 @app.route("/check-auth", methods=["GET"])
-@jwt_required()
 def check_auth():
     user = get_jwt_identity()
     return jsonify({
