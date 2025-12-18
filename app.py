@@ -118,7 +118,7 @@ def login():
                 "message": "Login Successful"
             })
             set_access_cookies(response, access_token)
-            return response
+            return response, 200
 
         else:
             return jsonify({"messsage": "password invalid"})    
@@ -163,9 +163,7 @@ def addWork():
 def viewWork(employee_id):
     sql = "Select * from emp_details where emp_id=%s"
     cursor.execute(sql,(employee_id,))
-    columns = [column[0] for column in cursor.description]
-    rows = cursor.fetchall()
-    res = [dict(zip(columns, row)) for row in rows]
+    res = cursor.fetchall()
 
     return jsonify(res)
 
@@ -174,10 +172,9 @@ def retrieve_id():
     sql = "Select employee_id from employee"
     cursor.execute(sql)
     columns = [column[0] for column in cursor.description]
-    rows = cursor.fetchall()
-    rows = [dict(zip(columns, row)) for row in rows]
-    print(rows)
-    return jsonify(rows)
+    res = cursor.fetchall()
+
+    return jsonify(res)
 
 @app.route("/update/<int:employee_id>", methods=["PUT"])
 def update_employee(employee_id):
@@ -202,9 +199,7 @@ def view_employee(employee_id):
     sql = "Select * from employee where employee_id=%s"
     values = (employee_id,)
     cursor.execute(sql,values)
-    columns = [column[0] for column in cursor.description]
-    rows = cursor.fetchall()
-    res = [dict(zip(columns, row)) for row in rows]
+    res = cursor.fetchall()
 
     return jsonify(res)
 
@@ -212,9 +207,7 @@ def view_employee(employee_id):
 def view_all_employee():
         sql = "Select * from employee"
         cursor.execute(sql)
-        columns = [column[0] for column in cursor.description]
-        rows = cursor.fetchall()
-        res = [dict(zip(columns, row)) for row in rows]
+        res = cursor.fetchall()
         return jsonify(res)
 
 @app.route("/delete/<int:employee_id>", methods=["DELETE"])
