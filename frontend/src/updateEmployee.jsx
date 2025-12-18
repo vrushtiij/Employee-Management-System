@@ -25,7 +25,7 @@ const UpdateEmployee = () => {
   const fetchEmployee = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/view/${employee_id}`, { withCredentials: true }
+        `https://web-production-c58ab.up.railway.app/view/${employee_id}`, { withCredentials: true }
       );
       const data = Array.isArray(res.data) ? res.data[0] : res.data;
 
@@ -67,7 +67,7 @@ const UpdateEmployee = () => {
 
     try {
       await axios.put(
-        `http://localhost:5000/update/${employee_id}`,
+        `https://web-production-c58ab.up.railway.app/update/${employee_id}`,
         formData, 
         {withCredentials: true}
       );
