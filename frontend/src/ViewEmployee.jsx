@@ -20,7 +20,7 @@ const ViewEmployee = () => {
 
   const fetchEmployee = async () => {
     try {
-      const res = await axios.get(`https://your-backend.up.railway.app/view/${employee_id}`,{ withCredentials: true });
+      const res = await axios.get(`https://web-production-c58ab.up.railway.app/view/${employee_id}`,{ withCredentials: true });
       setEmployee(Array.isArray(res.data) ? res.data[0] : res.data);
     } catch (err) {
       console.error(err);
@@ -29,7 +29,7 @@ const ViewEmployee = () => {
 
   const fetchWork = async () => {
     try{
-      const res = await axios.get(`https://your-backend.up.railway.app/${employee_id}`,{ withCredentials: true });
+      const res = await axios.get(`https://web-production-c58ab.up.railway.app/${employee_id}`,{ withCredentials: true });
       setWork(Array.isArray(res.data) ? res.data[0] : res.data);
     } catch (err) {
       console.error(err);
@@ -40,7 +40,7 @@ const ViewEmployee = () => {
     if (!window.confirm("Are you sure you want to delete this employee?")) return;
 
     try {
-      await axios.delete(`https://your-backend.up.railway.app/${employee_id}`, {withCredentials: true});
+      await axios.delete(`https://web-production-c58ab.up.railway.app/${employee_id}`, {withCredentials: true});
       toast.success("Employee deleted"), {autoclose: 1000};
       navigate("/View_All");
     } catch (err) {

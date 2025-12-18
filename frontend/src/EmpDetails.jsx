@@ -47,7 +47,7 @@ const EmpDetails = () => {
 
     const getEmpIds = async () => {
         try{
-            const res = await axios.get("https://your-backend.up.railway.app/retrieve_id", {withCredentials: true});
+            const res = await axios.get("https://web-production-c58ab.up.railway.app/retrieve_id", {withCredentials: true});
             if (Array.isArray(res.data)) {
                 setEmpIds(res.data);
             } else {

@@ -15,7 +15,7 @@ const Login = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            const res = await axios.post("https://your-backend.up.railway.app/login", {
+            const res = await axios.post("https://web-production-c58ab.up.railway.app/login", {
                 username,
                 password
             }, { withCredentials: true });

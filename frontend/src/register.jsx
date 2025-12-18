@@ -33,7 +33,7 @@ const Register = () => {
         setLoading(true);
 
         try {
-            const res = await axios.post("https://your-backend.up.railway.app/register", {
+            const res = await axios.post("https://web-production-c58ab.up.railway.app/register", {
                 username,
                 password
             });
