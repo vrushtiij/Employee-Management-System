@@ -176,6 +176,11 @@ const AddEmployee = () => {
             )}
           </div>
         </div>
+        <div className="form-actions">
+          <button type="submit" className="submit-btn">
+            Add Employee
+          </button>
+        </div>
       </form>
     </div>
   );
