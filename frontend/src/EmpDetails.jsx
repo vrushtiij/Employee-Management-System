@@ -68,7 +68,7 @@ const EmpDetails = () => {
     if (!validate()) return;
 
     try {
-      const res = await axios.post("https://your-backend.up.railway.app/addWork", formData,
+      const res = await axios.post("https://web-production-c58ab.up.railway.app/addWork", formData,
         { withCredentials: true }
       );
       if (res.data.success) {
